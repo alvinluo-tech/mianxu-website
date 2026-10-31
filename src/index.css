@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-ink font-sans text-snow antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  @apply bg-volt text-ink;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a12;
+}
+::-webkit-scrollbar-thumb {
+  background: #2a2a44;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3d3d66;
+}
+
+@layer components {
+  /* AnimatedTitle：每个词的初始态（由 GSAP scrub 驱动进入） */
+  .animated-word {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(46px) rotateX(48deg);
+    transform-origin: 50% 100%;
+    will-change: transform, opacity;
+  }
+
+  .game-title {
+    @apply font-display font-black uppercase leading-[0.95] tracking-tight;
+  }
+
+  .section-tag {
+    @apply mb-6 inline-flex items-center gap-2 rounded-full border border-snow-50/15 bg-snow-50/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-snow-50;
+  }
+
+  .glass-panel {
+    @apply rounded-2xl border border-snow-50/10 bg-snow-50/[0.04];
+  }
+}

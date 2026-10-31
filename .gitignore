@@ -1,0 +1,28 @@
+# 依赖与构建产物
+node_modules/
+dist/
+
+# 本地生成物（视频帧 / 抽帧预览 / 原始截图 / 素材）
+scripts/frames/
+scripts/preview/
+_capture/
+_film/
+
+# 环境与密钥
+.env
+.env.*
+*.local
+
+# 日志
+*.log
+npm-debug.log*
+
+# 编辑器 / 系统
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+
+# Vercel
+.vercel
