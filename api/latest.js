@@ -1,25 +1,30 @@
 /**
  * Vercel Serverless Function: /api/latest
- * 返回最新版本信息（服务端读 Tauri 清单，边缘缓存 10 分钟），供官网展示版本号。
- * 失败时返回 { tag: null }，前端隐藏版本号即可。
+ * 返回最新版本信息（服务端读 Tauri 清单，边缘缓存 10 分钟）；读取失败时退回构建期版本。
  */
+import { RELEASE_TAG, RELEASE_DATE } from "../../src/lib/constants.js";
+
 const LATEST_MANIFEST =
   "https://github.com/alvinluo-tech/interview-assistant/releases/latest/download/latest.json";
 
 export default async function handler(req, res) {
   res.setHeader("Cache-Control", "public, s-maxage=600, stale-while-revalidate=3600");
   res.setHeader("Content-Type", "application/json; charset=utf-8");
+
+  let tag = RELEASE_TAG;
+  let date = RELEASE_DATE;
   try {
     const r = await fetch(LATEST_MANIFEST, { redirect: "follow" });
-    if (!r.ok) throw new Error(String(r.status));
-    const manifest = await r.json();
-    return res.status(200).end(
-      JSON.stringify({
-        tag: `v${String(manifest.version || "").replace(/^v/, "")}`,
-        date: (manifest.pub_date || "").slice(0, 10) || null,
-      })
-    );
+    if (r.ok) {
+      const manifest = await r.json();
+      const v = String(manifest.version || "").replace(/^v/, "");
+      if (v) tag = `v${v}`;
+      const d = String(manifest.pub_date || "").slice(0, 10);
+      if (d) date = d;
+    }
   } catch {
-    return res.status(200).end(JSON.stringify({ tag: null, date: null }));
+    /* 网络异常时沿用构建期版本 */
   }
+
+  return res.status(200).end(JSON.stringify({ tag, date }));
 }
