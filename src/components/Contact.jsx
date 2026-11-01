@@ -1,18 +1,27 @@
 import { useState } from "react";
 import RevealTitle from "./RevealTitle";
 import { downloadUrl } from "../lib/constants";
+import { detectTarget } from "../lib/detectTarget";
 
 function detectOS() {
-  const ua = typeof navigator !== "undefined" ? navigator.userAgent : "";
-  if (/Mac|iPhone|iPad/i.test(ua)) return "mac-arm";
-  if (/Win/i.test(ua)) return "win";
-  return "other";
+  if (typeof navigator === "undefined") return "other";
+  return detectTarget({
+    userAgent: navigator.userAgent,
+    platform: navigator.platform,
+    maxTouchPoints: navigator.maxTouchPoints || 0,
+  });
 }
 
 const LABELS = {
   win: "下载 Windows 版",
   "mac-arm": "下载 macOS 版",
-  other: "前往下载",
+  other: "选择你的系统",
+};
+
+const NOTES = {
+  win: "macOS 版与便携版见下载区",
+  "mac-arm": "Apple Silicon 版 · Intel Mac 请选下载区的 Intel 版",
+  other: "iOS / iPadOS 暂无桌面版，请用电脑打开",
 };
 
 export default function Contact() {
@@ -34,17 +43,14 @@ export default function Contact() {
             </p>
             <div className="mt-8">
               <a
-                href={downloadUrl(os)}
+                href={os === "other" ? "#download" : downloadUrl(os)}
                 className="inline-flex items-center bg-brand px-8 py-4 font-mono text-[11px] uppercase tracking-[0.22em] text-paper transition-colors duration-500 ease-expo hover:bg-brand-light"
               >
                 {LABELS[os]}
               </a>
             </div>
             <p className="mt-5 font-mono text-[10px] uppercase tracking-[0.16em] text-paper-mute">
-              其他版本请见{" "}
-              <a href="#download" className="text-paper-ash underline underline-offset-4">
-                下载区
-              </a>
+              {NOTES[os]}
             </p>
           </div>
         </div>
