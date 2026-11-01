@@ -1,7 +1,6 @@
 import { useState } from "react";
 import RevealTitle from "./RevealTitle";
-import GithubIcon from "./GithubIcon";
-import { downloadUrl, GITHUB_REPO } from "../lib/constants";
+import { downloadUrl } from "../lib/constants";
 
 function detectOS() {
   const ua = typeof navigator !== "undefined" ? navigator.userAgent : "";
@@ -33,21 +32,12 @@ export default function Contact() {
             <p className="prose-body">
               下载桌面端，接入你自己的模型，五分钟后开始第一场有备而来的面试。
             </p>
-            <div className="mt-8 flex flex-wrap items-center gap-4">
+            <div className="mt-8">
               <a
                 href={downloadUrl(os)}
                 className="inline-flex items-center bg-brand px-8 py-4 font-mono text-[11px] uppercase tracking-[0.22em] text-paper transition-colors duration-500 ease-expo hover:bg-brand-light"
               >
                 {LABELS[os]}
-              </a>
-              <a
-                href={GITHUB_REPO}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2.5 border border-line px-6 py-4 font-mono text-[11px] uppercase tracking-[0.2em] text-paper transition-colors duration-500 ease-expo hover:border-paper/50 hover:bg-paper/[0.04]"
-              >
-                <GithubIcon className="h-4 w-4" />
-                源码
               </a>
             </div>
             <p className="mt-5 font-mono text-[10px] uppercase tracking-[0.16em] text-paper-mute">
