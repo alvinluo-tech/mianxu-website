@@ -42,7 +42,7 @@ export default function Hero() {
             <div className="mt-11 flex flex-wrap items-center gap-4">
               <a
                 href={downloadUrl("win")}
-                className="inline-flex items-center bg-paper px-8 py-4 font-mono text-[11px] uppercase tracking-[0.22em] text-ink transition-colors duration-500 ease-expo hover:bg-white"
+                className="inline-flex items-center bg-paper px-8 py-4 font-mono text-[11px] uppercase tracking-[0.22em] text-ink transition-colors duration-500 ease-expo hover:bg-[rgb(var(--text-2))]"
               >
                 下载桌面端
               </a>

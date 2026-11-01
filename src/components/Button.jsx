@@ -1,10 +1,10 @@
 const VARIANTS = {
   // 纸白实底：页面唯一的高对比动作
-  solid: "bg-paper text-ink hover:bg-white",
+  solid: "bg-paper text-ink hover:bg-[rgb(var(--text-2))]",
   // 细线描边：次级动作
   outline: "border border-line text-paper hover:border-paper/50 hover:bg-paper/[0.04]",
   // 赤陶：全站只留给最重要的那一处
-  accent: "bg-brand text-paper hover:bg-brand-light",
+  accent: "bg-brand text-brand-contrast hover:bg-brand-light",
 };
 
 /**

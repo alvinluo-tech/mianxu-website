@@ -20,6 +20,12 @@ export default function RevealTitle({
       const targets = gsap.utils.toArray(".line-mask > span");
       if (!targets.length) return;
 
+      // 尊重系统"减少动态效果"设置：直接呈现最终状态
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        gsap.set(targets, { yPercent: 0 });
+        return;
+      }
+
       const anim = {
         yPercent: 0,
         duration: 1.15,

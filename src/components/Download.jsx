@@ -89,7 +89,7 @@ export default function Download() {
                         href={downloadUrl(item.key)}
                         className={`flex items-baseline justify-between px-5 py-4 transition-colors duration-500 ease-expo ${
                           j === 0
-                            ? "bg-paper text-ink hover:bg-white"
+                            ? "bg-paper text-ink hover:bg-[rgb(var(--text-2))]"
                             : "border border-line text-paper hover:border-paper/50 hover:bg-paper/[0.04]"
                         }`}
                       >

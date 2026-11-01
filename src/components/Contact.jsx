@@ -44,7 +44,7 @@ export default function Contact() {
             <div className="mt-8">
               <a
                 href={os === "other" ? "#download" : downloadUrl(os)}
-                className="inline-flex items-center bg-brand px-8 py-4 font-mono text-[11px] uppercase tracking-[0.22em] text-paper transition-colors duration-500 ease-expo hover:bg-brand-light"
+                className="inline-flex items-center bg-brand px-8 py-4 font-mono text-[11px] uppercase tracking-[0.22em] text-brand-contrast transition-colors duration-500 ease-expo hover:bg-brand-light"
               >
                 {LABELS[os]}
               </a>

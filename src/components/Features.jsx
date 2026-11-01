@@ -83,6 +83,7 @@ export default function Features() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
       gsap.utils.toArray(".feature-row").forEach((row) => {
         const media = row.querySelector(".feature-media");
         gsap.fromTo(

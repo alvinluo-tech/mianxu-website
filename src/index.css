@@ -17,6 +17,7 @@
   --brand: 21 174 242;
   --brand-light: 79 195 247;
   --brand-deep: 10 110 158;
+  --brand-contrast: 6 22 38;
   --grid: 232 236 244;
   color-scheme: dark;
 }
@@ -35,6 +36,7 @@
   --brand: 10 118 172;
   --brand-light: 16 140 198;
   --brand-deep: 7 88 130;
+  --brand-contrast: 255 255 255;
   --grid: 12 18 32;
   color-scheme: light;
 }
