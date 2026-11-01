@@ -2,91 +2,96 @@ import GithubIcon from "./GithubIcon";
 import { GITHUB_REPO, GITHUB_RELEASES } from "../lib/constants";
 
 const NAV = [
-  { label: "产品理念", href: "#about" },
-  { label: "宣传视频", href: "#video" },
-  { label: "核心功能", href: "#features" },
-  { label: "使用场景", href: "#story" },
+  { label: "产品", href: "#about" },
+  { label: "宣传片", href: "#video" },
+  { label: "功能", href: "#features" },
+  { label: "原则", href: "#story" },
   { label: "下载", href: "#download" },
-  { label: "联系我们", href: "#contact" },
 ];
 
 export default function Footer() {
   return (
-    <footer className="relative border-t border-snow-50/10 bg-ink-800/60">
-      <div className="mx-auto grid max-w-7xl gap-12 px-6 py-16 md:grid-cols-[1.4fr_1fr_1fr]">
-        <div>
-          <div className="flex items-center gap-3">
-            <a href="#top" className="flex items-center gap-2.5">
+    <footer className="border-t border-line">
+      <div className="wrap py-14">
+        <div className="grid gap-10 md:grid-cols-12">
+          <div className="md:col-span-5">
+            <a href="#top" className="flex items-center gap-3">
               <img
                 src="/img/app-icon.png"
                 alt="MianXu 应用图标"
-                className="h-9 w-9 rounded-xl"
+                className="h-8 w-8"
               />
-              <span className="font-display text-xl font-black tracking-wide">MIANXU</span>
+              <span className="font-serif text-[22px] italic leading-none text-paper">
+                MianXu
+              </span>
+              <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-paper-mute">
+                面试工作台
+              </span>
             </a>
-            <a
-              href={GITHUB_REPO}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="GitHub 仓库"
-              className="grid h-9 w-9 place-items-center rounded-lg border border-snow-50/15 text-snow-50 transition-all hover:border-snow-50/40 hover:text-snow"
-            >
-              <GithubIcon className="h-[18px] w-[18px]" />
-            </a>
+            <p className="mt-5 max-w-[38ch] text-[13px] leading-[1.8] text-paper-ash">
+              本地优先的 AI 面试工作台。实时听译与作答、笔试截屏解题、模拟面试与复盘报告。
+            </p>
+            <p className="mt-6 font-serif text-sm italic text-paper-ash">
+              Let every interview be prepared.
+            </p>
           </div>
-          <p className="mt-4 max-w-sm text-sm leading-relaxed text-snow-25">
-            本地优先的 AI 面试工作台。面试实时听译与作答、笔试截屏解题、模拟面试动态对话与复盘报告。
-          </p>
-          <p className="mt-5 font-display text-sm font-bold uppercase tracking-[0.25em] text-grape-200">
-            Let every interview be prepared.
-          </p>
-        </div>
 
-        <div>
-          <h4 className="text-xs font-bold uppercase tracking-[0.25em] text-snow-50">导航</h4>
-          <ul className="mt-4 space-y-2.5">
-            {NAV.map((l) => (
-              <li key={l.href}>
-                <a href={l.href} className="text-sm text-snow-25 transition-colors hover:text-snow">
-                  {l.label}
+          <nav className="md:col-span-3">
+            <h4 className="eyebrow">目录</h4>
+            <ul className="mt-4 space-y-2.5">
+              {NAV.map((l) => (
+                <li key={l.href}>
+                  <a
+                    href={l.href}
+                    className="text-[13px] text-paper-ash transition-colors hover:text-paper"
+                  >
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div className="md:col-span-4">
+            <h4 className="eyebrow">开源</h4>
+            <ul className="mt-4 space-y-2.5">
+              <li>
+                <a
+                  href={GITHUB_REPO}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 text-[13px] text-paper-ash transition-colors hover:text-paper"
+                >
+                  <GithubIcon className="h-4 w-4" />
+                  GitHub 仓库
                 </a>
               </li>
-            ))}
-          </ul>
-        </div>
-
-        <div>
-          <h4 className="text-xs font-bold uppercase tracking-[0.25em] text-snow-50">开源</h4>
-          <ul className="mt-4 space-y-2.5 text-sm">
-            <li>
-              <a
-                href={GITHUB_REPO}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 text-snow-25 transition-colors hover:text-snow"
-              >
-                <GithubIcon className="h-4 w-4" />
-                GitHub 仓库
-              </a>
-            </li>
-            <li>
-              <a
-                href={GITHUB_RELEASES}
-                target="_blank"
-                rel="noreferrer"
-                className="text-snow-25 transition-colors hover:text-snow"
-              >
-                全部版本 Releases
-              </a>
-            </li>
-            <li>桌面端基于 Tauri 2 构建</li>
-            <li>数据保存在用户本机</li>
-          </ul>
+              <li>
+                <a
+                  href={GITHUB_RELEASES}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-[13px] text-paper-ash transition-colors hover:text-paper"
+                >
+                  全部 Releases
+                </a>
+              </li>
+              <li className="text-[13px] text-paper-mute">桌面端基于 Tauri 2</li>
+              <li className="text-[13px] text-paper-mute">数据保存在用户本机</li>
+            </ul>
+          </div>
         </div>
       </div>
 
-      <div className="border-t border-snow-50/5 py-6 text-center text-xs text-snow-25">
-        © 2026 MianXu · 让每一场面试都有备而来
+      <div className="border-t border-line-soft">
+        <div className="wrap flex flex-wrap items-baseline justify-between gap-3 py-5">
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-paper-mute">
+            © 2026 MianXu
+          </p>
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-paper-mute">
+            Built with Tauri · React · GSAP
+          </p>
+        </div>
       </div>
     </footer>
   );

@@ -1,17 +1,27 @@
 const VARIANTS = {
-  volt: "bg-volt text-ink hover:brightness-110",
-  grape: "bg-grape-400 text-snow hover:bg-grape-300",
-  outline: "border border-snow-50/30 text-snow hover:bg-snow-50/10",
+  // 纸白实底：页面唯一的高对比动作
+  solid: "bg-paper text-ink hover:bg-white",
+  // 细线描边：次级动作
+  outline: "border border-line text-paper hover:border-paper/50 hover:bg-paper/[0.04]",
+  // 赤陶：全站只留给最重要的那一处
+  accent: "bg-brand text-paper hover:bg-brand-light",
 };
 
 /**
- * 斜切角按钮（zentry 风格 clip-path）
+ * 矩形按钮：无箭头、无斜切，靠字距与留白
  */
-export default function Button({ children, variant = "volt", href, className = "", onClick, external = false }) {
+export default function Button({
+  children,
+  variant = "solid",
+  href,
+  className = "",
+  onClick,
+  external = false,
+}) {
   const cls = [
-    "inline-flex items-center justify-center gap-2 px-7 py-3.5 text-sm font-bold uppercase tracking-[0.14em]",
-    "transition-all duration-300",
-    "[clip-path:polygon(6%_0,100%_0,94%_100%,0_100%)]",
+    "inline-flex items-center justify-center gap-2.5 px-8 py-4",
+    "font-mono text-[11px] font-medium uppercase tracking-[0.22em]",
+    "transition-colors duration-500 ease-expo",
     VARIANTS[variant],
     className,
   ].join(" ");

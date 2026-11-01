@@ -1,91 +1,92 @@
 # MianXu 官网
 
-参考 [adrianhajdin/award-winning-website](https://github.com/adrianhajdin/award-winning-website)（Zentry 风格）的动效体系，为 **MianXu —— 本地优先的 AI 面试工作台** 全新编写的官网落地页。
+**MianXu —— 本地优先的 AI 面试工作台** 的官网落地页。
 
-> 代码为本项目独立编写（非模板代码拷贝），借鉴其设计语言：GSAP 滚动动画、clip-path 斜切按钮、Bento 3D 悬停卡片、滚动感知导航栏、视频预览弹层。
+视觉体系参考 [alchaincyf/huashu-design](https://github.com/alchaincyf/huashu-design) 的设计规范：
+品牌优先（颜色从真实产品界面采样，不凭记忆猜）、单一强调色、编辑级排版与留白、
+动效带惯性（`expo.out`），并规避常见「AI 味」写法（紫色渐变、emoji 图标、每个标题上方的小号标签、
+中点连接符、圆角卡片堆叠、按钮箭头）。
+
+## 设计系统
+
+| 项 | 取值 | 来源 |
+|---|---|---|
+| 底色 | `#0A0F19` / 面板 `#131929` | 采样自应用主窗口 |
+| 强调色 | `#15AEF2`（青蓝），全站仅用于编号、下划线、进度与唯一主 CTA | 采样自界面主按钮 |
+| 正文 | `#E8ECF4` / 次级 `#8A93A6` | 冷白纸感 |
+| 展示字体 | 系统中文黑体（PingFang / 微软雅黑），`leading 0.9`、`tracking -0.02em` | — |
+| 点缀字体 | Georgia 斜体（数字、章节号、图注） | — |
+| 结构 | 细线分隔（`1px rgba(232,236,244,.14)`）、12 栏网格、编号章节 `01 / 产品` | — |
+| 动效 | 行掩膜揭示 + `cubic-bezier(0.16,1,0.3,1)`；图片入场上浮 8% | — |
+
+> 行掩膜需给 CJK 字形留余量：雅黑在 `line-height: 0.9` 时字形高约 86px、行框仅 59px，
+> 上下各溢出约 `0.21em`，`.line-mask` 用 `padding: 0.24em` + 负 margin 抵消，否则会切掉笔画。
 
 ## 技术栈
 
 | 层 | 选型 |
 |---|---|
 | 框架 | React 18 + Vite 5 |
-| 动画 | GSAP 3（ScrollTrigger scrub 逐词标题、入场时间线、鼠标跟随 3D 倾斜） |
-| 样式 | Tailwind CSS 3（自定义 ink/snow/grape/volt 色板） |
-| 视频 | [huashu-motion](https://github.com/alchaincyf/huashu-motion)（GSAP 合成 + 本机 Chrome 逐帧渲染 + 作曲家模式配乐） |
+| 动画 | GSAP 3 + ScrollTrigger（行掩膜揭示、图片上浮、`expo.out`） |
+| 样式 | Tailwind CSS 3（`ink / paper / brand` 三组语义色 + `line` 分隔线） |
+| 下载 | Vercel Serverless 函数读取 GitHub Releases 清单后 302 |
+| 宣传片 | [huashu-motion](https://github.com/alchaincyf/huashu-motion) 工程（`_film/mianxu-promo`） |
 
 ## 页面结构
 
-- `Navbar` —— 滚动感知悬浮导航 + 移动端全屏菜单
-- `Hero` —— 大字标题 + 宣传片预览卡（悬停 3D 倾斜，点击弹层播放）
-- `About` —— 产品理念 + 真实界面截图 + 数据卡
-- `VideoSection` —— **宣传视频专区**（内嵌完整播放器）
-- `Features` —— 6 张 BentoTilt 功能卡（全部使用真实应用截图）
-- `Story` —— 本地优先/BYOK 理念 + 鼠标跟随浮动面板 + 使用场景
-- `Download` —— GitHub 下载区：Windows/macOS 官方图标 + 自动最新版下载
-- `Contact` / `Footer` —— 下载 CTA（自动识别访客系统）与页脚（含 GitHub 图标入口）
+- `Navbar` —— 细线悬浮导航（滚动收窄）+ 移动端全屏菜单（编号排版）
+- `Hero` —— 超大标题 + 宣传片预览（悬停缓推、点击全屏）+ 四条规格事实条
+- `About` —— 产品理念、三项关键数字（衬线数字）、全宽界面图
+- `VideoSection` —— 宣传片专区：播放器 + 章节时间线（00:03 / 00:09 / 00:16 / 00:22）
+- `Features` —— 七个能力，交替左右的长文条目（编号 + 三条差异化事实 + 界面图）
+- `Story` —— 四条产品原则 + 引文 + 设置界面图
+- `Download` —— Windows / macOS 双栏，官方图标，自动最新版直链
+- `Contact` / `Footer` —— 系统识别 CTA（全站唯一青蓝按钮）、极简页脚
 
 ### 自动最新版下载（零限流、免 API）
 
 `api/` 下有两个 Vercel Serverless 函数（**部署后才生效**，本地 dev 自动回退到 Releases 页）：
 
 - **`/api/download/[platform]`**（`win` / `win-portable` / `mac-arm` / `mac-intel`）
-  服务端读取 Release 资产里的 Tauri 清单 `latest.json`（CDN 静态文件，**无 API 限流**），
+  服务端读取 Release 资产里的 Tauri 清单 `latest.json`（CDN 静态文件，无 API 限流），
   按最新版本号 302 到官方资产直链 —— 用户点击即直接下载，永远最新版。
 - **`/api/latest`** —— 返回 `{ tag, date }`（边缘缓存 10 分钟），供下载区展示版本号。
 
-原理：`releases/latest/download/latest.json` 是 GitHub Releases 的固定 CDN 地址，
-但浏览器跨域读不到（无 CORS 头），所以由 Vercel 函数在服务端读取后重定向；
-清单解析失败时自动兜底跳转 Releases 页，链接永不落空。
-发新版本**无需改站**。
+原理：`releases/latest/download/latest.json` 是固定 CDN 地址，但浏览器跨域读不到（无 CORS 头），
+因此由函数在服务端读取后重定向；解析失败自动兜底跳 Releases 页。发新版本**无需改站**。
+
+## 宣传片
+
+正式成片由 `_film/mianxu-promo/`（huashu-motion 工程）产出，当前版本 `out/mianxu-promo-v10.mp4`，
+发布到 `public/videos/`：
+
+```bash
+# 成片与派生资源（首页循环片段、封面）均由成片转出
+ffmpeg -ss 10 -t 9 -i public/videos/mianxu-promo.mp4 -an -vf scale=1100:-2 \
+  -c:v libx264 -pix_fmt yuv420p -crf 23 -movflags +faststart public/videos/hero-loop.mp4
+ffmpeg -ss 4.5 -i public/videos/mianxu-promo.mp4 -frames:v 1 -q:v 3 public/videos/poster.jpg
+```
+
+`scripts/make_promo.py` 是早期的 Pillow 备用样片生成器，只输出到
+`public/videos/fallback/`，**不会覆盖正式成片**（`npm run promo:fallback`）。
 
 ## 快速开始
 
 ```bash
 npm install
-npm run dev        # http://localhost:5180
+npm run dev        # http://localhost:5180（被占用时顺延）
 npm run build      # 输出 dist/
 npm run preview
 ```
 
-## 宣传视频（huashu-motion 工作流）
+## 部署
 
-宣传短片《说完，就答》（32s · 1920×1080 · 120 BPM · 带配乐音效）使用
-[huashu-motion](https://github.com/alchaincyf/huashu-motion) skill 制作：片子是单个
-`index.html`（GSAP 时间线 + OM 相机），配乐为 ABC 记谱本机合成，由本机 Chrome 逐帧渲染。
+纯静态站 + 两个函数，Vercel 零配置：
 
-- 片子源码：`_film/mianxu-promo/index.html`（含可编辑变量：标题、问题文案、复盘分数、色彩等）
-- 素材清单：`_film/mianxu-promo/materials.md`；导演节奏单：`_film/mianxu-promo/treatment.md`
-- 真实素材：`assets/img/` 中的应用截图 + 界面 DOM 重建（布局/配色/文案均来自真实截图采样）
-- 修改后重新导出：
+- **Git 方式**：推送到 GitHub → Vercel 导入（自动识别 Vite，Build `npm run build`，Output `dist`）
+- **CLI 方式**：`npm i -g vercel && vercel --prod`
 
-```bash
-# 依赖：Node 22+、Chrome/Edge、ffmpeg（PATH 中）；huashu-motion 位于
-# E:\code\github_project\_ref_huashu_npm\package（npm 包）或 E:\code\github_project\huashu-motion（v0.3.1 仓库）
-node E:\code\github_project\huashu-motion\cli\om.js check  _film\mianxu-promo   # 渲染前检查
-node E:\code\github_project\huashu-motion\cli\om.js sound  _film\mianxu-promo   # 重新配乐
-node E:\code\github_project\huashu-motion\cli\om.js render _film\mianxu-promo --blur   # 导出 MP4（out/）
-node E:\code\github_project\huashu-motion\cli\om.js qa     _film\mianxu-promo   # 成片质检
-node E:\code\github_project\huashu-motion\cli\om.js studio _film\mianxu-promo   # 浏览器编辑器：按 C 点画面改
-```
-
-导出后把 `out/mianxu-promo-vN.mp4` 复制为 `public/videos/mianxu-promo.mp4`，
-并抽一帧封面覆盖 `public/videos/poster.jpg`。
-
-## 部署到 Vercel
-
-纯静态站，零配置：
-
-- **Git 方式**：推送到 GitHub → Vercel 导入 → 自动识别 Vite（Build: `npm run build`，Output: `dist`）
-- **CLI 方式**：`npm i -g vercel && vercel`
-
-已附带 `vercel.json`（SPA rewrite），后续增加路由无需改动。
-
-## 上线前待办（占位项）
-
-- [ ] 品牌名：站内与截图已统一为 `MianXu`（应用源码 `src/lib/env.ts` 的 `BRAND`、`MainWindow.tsx` 的 `BrandMark`、`i18n.ts` 三处显示层已改，如需回退改回即可）
-- [ ] `Contact` 组件的联系方式按钮目前锚回页顶，可替换为真实邮箱/下载链接
-- [ ] 截图中 `app-mock-report.jpg` 为真实模拟面试复盘内容，如介意公开展示可替换
-- [ ] `index.html` 的 meta description / title 按最终文案微调
+`vercel.json` 的 SPA rewrite 已排除 `/api/*`。
 
 ## 目录结构
 
@@ -94,20 +95,19 @@ api/
   download/[platform].js   下载 302 端点（服务端解析 latest.json）
   latest.js                最新版本信息 JSON 端点
 public/
-  img/app/          真实应用截图（scripts/process_shots.py 生成）
-  videos/           宣传视频（_film/mianxu-promo 由 huashu-motion 渲染导出）
-_film/
-  mianxu-promo/     宣传片工程（index.html 源码 / treatment.md / materials.md / out/ 成片）
-  directions/       三个方向的关键帧与色板（制作过程留档）
+  img/app/                 真实应用截图
+  img/app-icon.png         应用图标
+  videos/                  宣传成片 + 派生资源
 scripts/
-  make_promo.py     旧版 Pillow 渲染脚本（已被 huashu-motion 工作流取代，留档）
-  preview_frames.py 抽帧预览（调样式用）
-  process_shots.py  截图裁切
-  sample_colors.py  从截图像素采样产品配色
+  make_promo.py            备用样片生成（输出到 fallback/）
+  preview_frames.py        样片抽帧预览
+  process_shots.py         截图裁切
+  sample_colors.py         产品配色采样
 src/
-  components/       Navbar / Hero / About / VideoSection / Features /
-                    Story / Download / Contact / Footer / VideoPreview /
-                    AnimatedTitle / BentoTilt / Button / GithubIcon / OSIcons
-  lib/gsap.js       GSAP + ScrollTrigger 注册
-  lib/constants.js  GitHub 仓库常量 + downloadUrl()/latestInfoUrl()
+  components/              Navbar / Hero / About / VideoSection / Features /
+                           Story / Download / Contact / Footer / VideoPreview /
+                           RevealTitle / Button / GithubIcon / OSIcons
+  lib/gsap.js              GSAP + ScrollTrigger 注册
+  lib/constants.js         仓库常量 + downloadUrl() / latestInfoUrl()
+_film/                     huashu-motion 宣传片工程（不入库）
 ```

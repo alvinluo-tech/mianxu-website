@@ -3,37 +3,24 @@ import { createPortal } from "react-dom";
 import { gsap } from "../lib/gsap";
 
 /**
- * 宣传视频预览卡：悬停 3D 倾斜，点击弹出全屏播放（zentry VideoPreview 风格）
+ * 宣传片预览：细线相框 + 时长标注；点击全屏播放
  */
-export default function VideoPreview() {
+export default function VideoPreview({ className = "" }) {
   const [playing, setPlaying] = useState(false);
   const frameRef = useRef(null);
 
+  // 悬停时缓慢推近，带惯性质感
   useEffect(() => {
     const el = frameRef.current;
     if (!el) return undefined;
-
-    const onMove = (e) => {
-      const rect = el.getBoundingClientRect();
-      const cx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
-      const cy = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-      gsap.to(el, {
-        duration: 0.6,
-        ease: "power3.out",
-        transformPerspective: 1200,
-        rotateY: cx * 9,
-        rotateX: -cy * 7,
-        transformStyle: "preserve-3d",
-      });
-    };
-    const onLeave = () => {
-      gsap.to(el, { duration: 1, ease: "power3.out", rotateX: 0, rotateY: 0 });
-    };
-
-    el.addEventListener("mousemove", onMove);
+    const media = el.querySelector("video");
+    if (!media) return undefined;
+    const onEnter = () => gsap.to(media, { scale: 1.03, duration: 1.4, ease: "expo.out" });
+    const onLeave = () => gsap.to(media, { scale: 1, duration: 1.4, ease: "expo.out" });
+    el.addEventListener("mouseenter", onEnter);
     el.addEventListener("mouseleave", onLeave);
     return () => {
-      el.removeEventListener("mousemove", onMove);
+      el.removeEventListener("mouseenter", onEnter);
       el.removeEventListener("mouseleave", onLeave);
     };
   }, []);
@@ -50,15 +37,17 @@ export default function VideoPreview() {
   }, [playing]);
 
   return (
-    <div>
-      <div
+    <div className={className}>
+      <button
         ref={frameRef}
+        type="button"
         onClick={() => setPlaying(true)}
-        className="group relative cursor-pointer rounded-2xl border border-snow-50/12 bg-ink-700 p-2 shadow-panel will-change-transform"
+        aria-label="播放 MianXu 宣传片"
+        className="group block w-full text-left"
       >
-        <div className="relative overflow-hidden rounded-xl">
+        <div className="relative overflow-hidden border border-line bg-ink-800">
           <video
-            src="/videos/mianxu-promo.mp4"
+            src="/videos/hero-loop.mp4"
             poster="/videos/poster.jpg"
             autoPlay
             muted
@@ -66,48 +55,51 @@ export default function VideoPreview() {
             playsInline
             className="aspect-video w-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-4 p-5">
-            <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-volt">
-                Official Promo
-              </p>
-              <p className="mt-1 font-display text-2xl font-black">MianXu 宣传片</p>
-            </div>
-            <div className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-volt text-xl text-ink transition-transform duration-300 group-hover:scale-110">
-              ▶
-            </div>
-          </div>
+          <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent" />
+          <span className="absolute left-5 top-5 flex items-center gap-2.5 font-mono text-[10px] uppercase tracking-[0.28em] text-paper/80">
+            <span className="h-1.5 w-1.5 rounded-full bg-brand" />
+            宣传片 · 00:32
+          </span>
+          <span className="absolute bottom-5 right-5 grid h-14 w-14 place-items-center border border-paper/40 text-paper transition-all duration-500 ease-expo group-hover:border-paper group-hover:bg-paper group-hover:text-ink">
+            <svg viewBox="0 0 24 24" className="h-4 w-4 translate-x-[1px] fill-current">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </span>
         </div>
-        {/* 边角装饰 */}
-        <span className="absolute -left-1.5 -top-1.5 h-6 w-6 rounded-tl-2xl border-l-2 border-t-2 border-volt" />
-        <span className="absolute -bottom-1.5 -right-1.5 h-6 w-6 rounded-br-2xl border-b-2 border-r-2 border-volt" />
-      </div>
+        <div className="mt-3 flex items-baseline justify-between border-t border-line-soft pt-3">
+          <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-paper-mute">
+            Official Film
+          </span>
+          <span className="font-serif text-sm italic text-paper-ash">
+            让每一场面试，都有备而来
+          </span>
+        </div>
+      </button>
 
       {playing &&
         createPortal(
           <div
-            className="fixed inset-0 z-[60] flex items-center justify-center bg-ink/95 p-4 backdrop-blur-xl"
+            className="fixed inset-0 z-[60] flex items-center justify-center bg-ink/95 px-4 py-6 backdrop-blur-sm"
             onClick={() => setPlaying(false)}
           >
-            <div className="relative w-full max-w-5xl" onClick={(e) => e.stopPropagation()}>
+            <div className="w-full max-w-5xl" onClick={(e) => e.stopPropagation()}>
               <video
                 src="/videos/mianxu-promo.mp4"
                 controls
                 autoPlay
                 playsInline
-                className="aspect-video w-full rounded-2xl border border-snow-50/10 shadow-glow"
+                className="aspect-video w-full border border-line bg-black"
               />
               <div className="mt-4 flex items-center justify-between">
-                <p className="text-sm font-semibold text-snow-75">
-                  MianXu · 让每一场面试都有备而来
+                <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-paper-ash">
+                  MianXu · Official Film · 00:32
                 </p>
                 <button
                   type="button"
                   onClick={() => setPlaying(false)}
-                  className="rounded-lg border border-snow-50/20 px-4 py-2 text-sm font-semibold hover:bg-snow-50/10"
+                  className="border border-line px-4 py-2 font-mono text-[10px] uppercase tracking-[0.2em] text-paper transition-colors hover:bg-paper hover:text-ink"
                 >
-                  ✕ 关闭 (Esc)
+                  关闭 (Esc)
                 </button>
               </div>
             </div>

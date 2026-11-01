@@ -8,7 +8,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "promo:video": "python scripts/make_promo.py"
+    "promo:fallback": "python scripts/make_promo.py"
   },
   "dependencies": {
     "gsap": "^3.12.5",

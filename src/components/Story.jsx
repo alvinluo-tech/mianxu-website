@@ -1,134 +1,87 @@
-import { useEffect, useRef } from "react";
-import { gsap } from "../lib/gsap";
-import AnimatedTitle from "./AnimatedTitle";
-import BentoTilt from "./BentoTilt";
+import RevealTitle from "./RevealTitle";
 
-const SCENES = [
-  { icon: "🎓", title: "校招冲刺", desc: "题库定制 + 高频模拟，把八股变成肌肉记忆" },
-  { icon: "🚀", title: "社招跳槽", desc: "带简历与项目上下文作答，回答贴合你的经历" },
-  { icon: "🌍", title: "外企英文面", desc: "多语言听译与作答，跨语言面试不再发怵" },
-  { icon: "🔁", title: "日常练习", desc: "碎片时间开一间模拟面试，复盘报告持续迭代" },
+const PRINCIPLES = [
+  {
+    idx: "01",
+    title: "数据留在本机",
+    body: "简历、岗位、记录与会话都保存在本地；AI 请求直接发往你配置的服务商，不经过我们。",
+  },
+  {
+    idx: "02",
+    title: "模型由你决定",
+    body: "作答、识题、听译、语音可分别绑定不同供应商与模型，换模型不用换工具。",
+  },
+  {
+    idx: "03",
+    title: "键盘先于鼠标",
+    body: "18 个全局动作热键加形态各异的浮窗，不打断你正在做的事。",
+  },
+  {
+    idx: "04",
+    title: "复盘驱动进步",
+    body: "练习的价值在于回看。每场模拟都留下可检索的复盘，而不是一次性对话。",
+  },
 ];
 
 export default function Story() {
-  const ref = useRef(null);
-  const floatRef = useRef(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.utils.toArray(".reveal-up").forEach((el) => {
-        gsap.fromTo(
-          el,
-          { y: 60, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 1,
-            ease: "power3.out",
-            scrollTrigger: { trigger: el, start: "top 88%" },
-          }
-        );
-      });
-    }, ref);
-    return () => ctx.revert();
-  }, []);
-
-  // FloatingImage：鼠标跟随 3D 浮动（zentry Story 风格）
-  useEffect(() => {
-    const el = floatRef.current;
-    if (!el) return undefined;
-    const onMove = (e) => {
-      const rect = el.getBoundingClientRect();
-      const cx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
-      const cy = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-      gsap.to(el, {
-        duration: 0.6,
-        ease: "power3.out",
-        transformPerspective: 1100,
-        rotateX: -cy * 10,
-        rotateY: cx * 12,
-      });
-    };
-    const onLeave = () => {
-      gsap.to(el, { duration: 1.1, ease: "power3.out", rotateX: 0, rotateY: 0 });
-    };
-    el.addEventListener("mousemove", onMove);
-    el.addEventListener("mouseleave", onLeave);
-    return () => {
-      el.removeEventListener("mousemove", onMove);
-      el.removeEventListener("mouseleave", onLeave);
-    };
-  }, []);
-
   return (
-    <section id="story" ref={ref} className="relative overflow-hidden py-28">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute bottom-0 left-[-200px] h-[420px] w-[420px] rounded-full bg-grape-deep/70 blur-[130px]"
-      />
-      <div className="relative mx-auto max-w-7xl px-6">
-        <div className="grid items-center gap-16 lg:grid-cols-2">
-          {/* 浮动截图 */}
-          <div className="reveal-up order-2 lg:order-1">
-            <div
-              ref={floatRef}
-              className="relative mx-auto max-w-xl will-change-transform"
-              style={{ transformStyle: "preserve-3d" }}
-            >
-              <div className="rounded-3xl border border-snow-50/12 bg-ink-700 p-2.5 shadow-panel">
-                <img
-                  src="/img/app/app-settings.jpg"
-                  alt="MianXu 设置界面"
-                  className="aspect-[16/10] w-full rounded-2xl object-cover object-left-top"
-                  loading="lazy"
-                />
-              </div>
-              <div
-                className="absolute -right-5 -top-6 rounded-2xl border border-volt/40 bg-ink/90 px-5 py-3 shadow-glow backdrop-blur"
-                style={{ transform: "translateZ(60px)" }}
-              >
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-volt">Local First</p>
-                <p className="mt-0.5 font-display text-lg font-black">数据保存在本机</p>
-              </div>
-              <div
-                className="absolute -bottom-6 -left-4 rounded-2xl border border-snow-50/15 bg-ink/90 px-5 py-3 backdrop-blur"
-                style={{ transform: "translateZ(40px)" }}
-              >
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-grape-200">BYOK</p>
-                <p className="mt-0.5 font-display text-lg font-black">多供应商 AI 接口</p>
-              </div>
-            </div>
+    <section id="story" className="scroll-mt-24 border-t border-line py-24 md:py-36">
+      <div className="wrap">
+        <div className="grid gap-10 lg:grid-cols-12">
+          <div className="lg:col-span-3">
+            <p className="eyebrow">04 / 原则</p>
           </div>
-
-          <div className="order-1 lg:order-2">
-            <p className="section-tag reveal-up">Principle · 使用场景</p>
-            <AnimatedTitle
-              containerClass="game-title text-4xl sm:text-5xl"
-              title={[
-                [{ text: "工具应该懂面试" }],
-                [{ text: "更该", color: "#9A9DB9" }, { text: "懂你", color: "#D8FF3E" }],
-              ]}
+          <div className="lg:col-span-9">
+            <RevealTitle
+              className="display text-[clamp(2.1rem,4.6vw,4.1rem)] text-paper"
+              lines={["工具应该懂面试，", "更该懂你。"]}
             />
-            <div className="reveal-up mt-7 space-y-4 text-base leading-relaxed text-snow-75">
-              <p>
-                快捷键体系、多语言支持、主题与字号自定义 —— 每一处细节都按你的习惯来；
-                数据、模型、边界，全部由你自己定义。
-              </p>
-            </div>
+          </div>
+        </div>
 
-            <div className="reveal-up mt-9 grid gap-4 sm:grid-cols-2">
-              {SCENES.map((s) => (
+        <div className="mt-16 grid gap-12 lg:grid-cols-12 lg:gap-16">
+          <div className="lg:col-span-7">
+            <div className="grid sm:grid-cols-2">
+              {PRINCIPLES.map((p, i) => (
                 <div
-                  key={s.title}
-                  className="glass-panel group p-5 transition-colors duration-300 hover:border-grape-400/40"
+                  key={p.idx}
+                  className={`border-t border-line py-7 ${
+                    i % 2 === 1 ? "sm:border-l sm:border-line sm:pl-8" : ""
+                  }`}
                 >
-                  <span className="text-2xl">{s.icon}</span>
-                  <h3 className="mt-2 font-display text-lg font-black">{s.title}</h3>
-                  <p className="mt-1 text-xs leading-relaxed text-snow-50">{s.desc}</p>
+                  <span className="numeral text-sm text-brand">{p.idx}</span>
+                  <h3 className="mt-3 text-lg font-bold tracking-tight text-paper">{p.title}</h3>
+                  <p className="mt-2.5 text-[13.5px] leading-[1.8] text-paper-ash">{p.body}</p>
                 </div>
               ))}
             </div>
+
+            <blockquote className="mt-10 border-l border-brand pl-6">
+              <p className="font-serif text-[1.35rem] italic leading-relaxed text-paper/90">
+                “界面越安静，注意力越值钱。”
+              </p>
+              <footer className="mt-3 font-mono text-[10px] uppercase tracking-[0.24em] text-paper-mute">
+                MianXu Design Principle
+              </footer>
+            </blockquote>
           </div>
+
+          <figure className="lg:col-span-5">
+            <div className="frame">
+              <img
+                src="/img/app/app-settings.jpg"
+                alt="MianXu 设置与 AI 服务界面"
+                loading="lazy"
+                className="block w-full"
+              />
+            </div>
+            <figcaption className="mt-3 flex items-baseline justify-between border-t border-line-soft pt-3">
+              <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-paper-mute">
+                Fig. 08 — 连接你的 AI
+              </span>
+              <span className="font-serif text-xs italic text-paper-ash">BYOK</span>
+            </figcaption>
+          </figure>
         </div>
       </div>
     </section>

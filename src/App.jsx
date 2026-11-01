@@ -11,7 +11,7 @@ import Footer from "./components/Footer";
 import { ScrollTrigger } from "./lib/gsap";
 
 export default function App() {
-  // 图片/视频资源加载完成后刷新 ScrollTrigger 的度量
+  // 资源加载完成后刷新 ScrollTrigger 度量
   useEffect(() => {
     const refresh = () => ScrollTrigger.refresh();
     window.addEventListener("load", refresh);
@@ -23,7 +23,7 @@ export default function App() {
   }, []);
 
   return (
-    <main id="top" className="relative min-h-screen overflow-x-hidden bg-ink text-snow">
+    <main id="top" className="relative min-h-screen overflow-x-hidden bg-ink text-paper">
       <Navbar />
       <Hero />
       <About />

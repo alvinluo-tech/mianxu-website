@@ -22,14 +22,15 @@ W, H, FPS = 1280, 720, 30
 DUR = 31.0
 TOTAL = int(DUR * FPS)
 
-INK = (10, 10, 18)
-PANEL = (18, 18, 31)
-SNOW = (223, 223, 240)
-SNOW50 = (154, 157, 185)
-SNOW25 = (94, 97, 128)
-GRAPE = (109, 74, 255)
-GRAPE_L = (139, 114, 232)
-VOLT = (216, 255, 62)
+# 色板与官网一致：藏青黑 / 冷白 / 单一青蓝点缀（采样自产品界面）
+INK = (10, 15, 25)
+PANEL = (19, 25, 41)
+SNOW = (232, 236, 244)
+SNOW50 = (138, 147, 166)
+SNOW25 = (91, 100, 120)
+GRAPE = (10, 110, 158)  # 品牌深
+GRAPE_L = (21, 174, 242)  # 品牌青蓝
+VOLT = (79, 195, 247)  # 青蓝浅：下划线 / 勾选 / 强调
 SHOTS = ["app-workbench.jpg", "app-mock.jpg", "app-mock-report.jpg"]
 
 
@@ -92,7 +93,7 @@ def ease_in_out(t):
 # ---------------------------------------------------------------- static bg
 def build_bg():
     img = Image.new("RGB", (W, H))
-    top, bottom = (13, 13, 25), (8, 8, 14)
+    top, bottom = (14, 17, 26), (6, 8, 13)
     d = ImageDraw.Draw(img)
     for y in range(H):
         k = y / (H - 1)
@@ -102,8 +103,8 @@ def build_bg():
     glow = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     gd = ImageDraw.Draw(glow)
     gd.ellipse([240, -260, 1040, 260], fill=GRAPE + (52,))
-    gd.ellipse([-260, 420, 320, 900], fill=(36, 22, 85, 120))
-    gd.ellipse([980, 460, 1560, 900], fill=(52, 36, 110, 90))
+    gd.ellipse([-260, 420, 320, 900], fill=(18, 58, 82, 120))
+    gd.ellipse([980, 460, 1560, 900], fill=(26, 80, 110, 90))
     glow = glow.filter(ImageFilter.GaussianBlur(120))
     img = Image.alpha_composite(img.convert("RGBA"), glow)
 
@@ -192,7 +193,7 @@ def draw_shot_window(frame, img, box, entry, shadow_off=(8, 14)):
     # 标题栏
     for i, c in enumerate([(255, 95, 86), (255, 189, 46), (39, 201, 63)]):
         wd.ellipse([x0 + 24 + i * 26, y0 + 15, x0 + 36 + i * 26, y0 + 27], fill=c + (a,))
-    wd.rounded_rectangle([x0 + 116, y0 + 12, x1 - 116, y0 + 32], radius=10, fill=(10, 10, 18, a))
+    wd.rounded_rectangle([x0 + 116, y0 + 12, x1 - 116, y0 + 32], radius=10, fill=(10, 15, 25, a))
 
     # 内容截图
     cx0, cy0, cx1, cy1 = x0 + 10, y0 + 42, x1 - 10, y1 - 10
@@ -237,7 +238,7 @@ def caption(frame, x, y, text, t01, accent=VOLT):
     tw = d.textbbox((0, 0), text, font=f)[2]
     bw = tw + 58
     bh = 44
-    d.rounded_rectangle([x, y + dy, x + bw, y + dy + bh], radius=10, fill=(12, 12, 22, min(232, a)))
+    d.rounded_rectangle([x, y + dy, x + bw, y + dy + bh], radius=10, fill=(12, 16, 26, min(232, a)))
     d.rounded_rectangle(
         [x, y + dy, x + bw, y + dy + bh], radius=10, outline=accent + (a,), width=1
     )
@@ -258,7 +259,7 @@ def chip(frame, cx, cy, icon, title, sub, t01):
     w_, h_ = 258, 170
     x0, y0 = int(cx - w_ / 2), int(cy - h_ / 2 + dy)
     x1, y1 = x0 + w_, y0 + h_
-    d.rounded_rectangle([x0, y0, x1, y1], radius=18, fill=(22, 22, 38, min(235, a)), outline=SNOW25 + (a,), width=1)
+    d.rounded_rectangle([x0, y0, x1, y1], radius=18, fill=(23, 29, 45, min(235, a)), outline=SNOW25 + (a,), width=1)
     d.ellipse([x0 + 22, y0 + 22, x0 + 66, y0 + 66], fill=GRAPE + (a,))
     d.text((x0 + 44, y0 + 31), icon, font=zh_b(26), fill=SNOW + (a,), anchor="mm")
     d.text((x0 + 22, y0 + 84), title, font=zh_b(24), fill=SNOW + (a,))
@@ -414,7 +415,7 @@ def scene_privacy(frame, t):
         x0, y0 = x, 420
         dy = int((1 - e) * 26)
         d.rounded_rectangle([x0, y0 + dy, x0 + bw, y0 + dy + 50], radius=25,
-                            fill=(22, 22, 38, int(235 * e)), outline=c + (int(200 * e),), width=1)
+                            fill=(23, 29, 45, int(235 * e)), outline=c + (int(200 * e),), width=1)
         d.text((x0 + bw / 2, y0 + dy + 24), s, font=f, fill=c + (int(255 * e),), anchor="mm")
 
     if t > 24.9:
@@ -485,8 +486,11 @@ def ffmpeg():
     exe = shutil.which("ffmpeg")
     if not exe:
         raise SystemExit("ffmpeg not found in PATH")
-    os.makedirs(VIDDIR, exist_ok=True)
-    promo = os.path.join(VIDDIR, "mianxu-promo.mp4")
+    # 注意：官网正式宣传片由 _film/mianxu-promo（huashu-motion 流水线）产出，
+    # 本脚本仅作备用样片，输出到 fallback/，不覆盖正式成片。
+    outdir = os.path.join(VIDDIR, "fallback")
+    os.makedirs(outdir, exist_ok=True)
+    promo = os.path.join(outdir, "mianxu-promo-pillow.mp4")
     subprocess.run(
         [exe, "-y", "-framerate", str(FPS), "-i", os.path.join(FRAMES, "%04d.png"),
          "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "19", "-preset", "medium",
@@ -496,12 +500,12 @@ def ffmpeg():
     subprocess.run(
         [exe, "-y", "-ss", "0", "-t", "7.5", "-i", promo, "-an",
          "-vf", "scale=960:-2", "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "21",
-         "-preset", "medium", "-movflags", "+faststart", os.path.join(VIDDIR, "hero-loop.mp4")],
+         "-preset", "medium", "-movflags", "+faststart", os.path.join(outdir, "hero-loop.mp4")],
         check=True,
     )
     subprocess.run(
         [exe, "-y", "-ss", "3.2", "-i", promo, "-frames:v", "1", "-q:v", "3",
-         os.path.join(VIDDIR, "poster.jpg")],
+         os.path.join(outdir, "poster.jpg")],
         check=True,
     )
     print("[ffmpeg] done:", promo)

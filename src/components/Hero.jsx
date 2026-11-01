@@ -1,100 +1,99 @@
-import { useEffect, useRef } from "react";
-import { gsap } from "../lib/gsap";
-import AnimatedTitle from "./AnimatedTitle";
+import RevealTitle from "./RevealTitle";
 import VideoPreview from "./VideoPreview";
 import GithubIcon from "./GithubIcon";
-import { GITHUB_REPO } from "../lib/constants";
+import { GITHUB_REPO, downloadUrl } from "../lib/constants";
+
+const SPECS = [
+  ["01", "本地优先", "数据不出本机"],
+  ["02", "8 大模块", "面试 / 笔试 / 模拟"],
+  ["03", "18 个热键", "全键盘掌控"],
+  ["04", "自带接口", "多供应商 BYOK"],
+];
 
 export default function Hero() {
-  const ref = useRef(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-      tl.fromTo(
-        ".hero-line",
-        { y: 70, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1, stagger: 0.12, delay: 0.2 }
-      )
-        .fromTo(".hero-sub", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8 }, "-=0.55")
-        .fromTo(".hero-cta", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7 }, "-=0.4")
-        .fromTo(
-          ".hero-visual",
-          { y: 60, opacity: 0, scale: 0.96 },
-          { y: 0, opacity: 1, scale: 1, duration: 1.1 },
-          "-=0.6"
-        );
-    }, ref);
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <section
-      id="hero"
-      ref={ref}
-      className="relative flex min-h-screen flex-col justify-center overflow-hidden pb-16 pt-32"
-    >
-      {/* 背景光斑 */}
+    <section id="hero" className="relative overflow-hidden pt-[132px]">
+      {/* 极轻的暖光与网格，作为版面呼吸，不做任何霓虹装饰 */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-48 left-1/2 h-[560px] w-[900px] -translate-x-1/2 rounded-full bg-grape-500/25 blur-[140px]" />
-        <div className="absolute right-[-220px] top-1/3 h-[420px] w-[420px] rounded-full bg-grape-400/15 blur-[120px]" />
-        <div className="absolute bottom-[-180px] left-[-180px] h-[380px] w-[380px] rounded-full bg-grape-deep/60 blur-[110px]" />
+        <div className="absolute inset-0 grid-lines opacity-[0.35]" />
+        <div className="absolute left-1/2 top-[-260px] h-[620px] w-[1100px] -translate-x-1/2 rounded-full bg-[#15AEF2]/[0.07] blur-[160px]" />
       </div>
 
-      <div className="relative mx-auto grid w-full max-w-7xl gap-14 px-6 lg:grid-cols-[1.02fr_0.98fr] lg:items-center">
-        <div>
-          <p className="section-tag hero-line">MianXu · AI 面试工作台</p>
-          <h1 className="game-title text-5xl text-snow sm:text-7xl lg:text-[5rem]">
-            <span className="hero-line block">让每一场面试</span>
-            <span className="hero-line block text-snow-75">
-              都有<span className="text-volt">备而来</span>
-            </span>
-          </h1>
-          <p className="hero-sub mt-6 max-w-xl text-lg leading-relaxed text-snow-75">
-            面试实时听译与作答、笔试截屏解题、模拟面试动态对话与复盘报告。
-            本地优先 —— AI 能力对接你自己的接口，数据保存在你自己的电脑上。
-          </p>
-          <div className="hero-cta mt-10 flex flex-wrap items-center gap-4">
-            <a
-              href="#video"
-              className="inline-flex items-center gap-2 bg-volt px-7 py-3.5 text-sm font-bold uppercase tracking-[0.14em] text-ink transition-all hover:brightness-110 [clip-path:polygon(6%_0,100%_0,94%_100%,0_100%)]"
-            >
-              ▶ 观看宣传视频
-            </a>
-            <a
-              href="#features"
-              className="inline-flex items-center gap-2 border border-snow-50/30 px-7 py-3.5 text-sm font-bold uppercase tracking-[0.14em] text-snow transition-all hover:bg-snow-50/10 [clip-path:polygon(6%_0,100%_0,94%_100%,0_100%)]"
-            >
-              了解核心功能
-            </a>
-            <a
-              href={GITHUB_REPO}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 border border-snow-50/30 px-6 py-3.5 text-sm font-bold uppercase tracking-[0.14em] text-snow transition-all hover:bg-snow-50/10 [clip-path:polygon(6%_0,100%_0,94%_100%,0_100%)]"
-            >
-              <GithubIcon className="h-[18px] w-[18px]" />
-              GitHub
-            </a>
-          </div>
-          <div className="hero-cta mt-10 flex flex-wrap gap-x-7 gap-y-3 text-xs font-bold uppercase tracking-[0.18em] text-snow-25">
-            <span>◆ 本地优先</span>
-            <span>◆ 多语言面试</span>
-            <span>◆ 复盘报告</span>
-            <span>◆ 自带 AI 接口</span>
-          </div>
+      <div className="wrap relative">
+        {/* 报头线 */}
+        <div className="flex items-baseline justify-between border-b border-line pb-5">
+          <span className="eyebrow">AI 面试工作台 · 本地优先</span>
+          <span className="eyebrow hidden sm:block">EST. 2026 / MianXu</span>
         </div>
 
-        <div className="hero-visual">
-          <VideoPreview />
+        <div className="grid grid-cols-1 items-end gap-14 pb-16 pt-14 lg:grid-cols-12 lg:gap-10 lg:pb-24 lg:pt-20">
+          <div className="lg:col-span-7">
+            <RevealTitle
+              as="h1"
+              scroll={false}
+              delay={0.25}
+              className="display text-[clamp(2.9rem,7.2vw,6.4rem)] text-paper"
+              lines={["让每一场面试", "都有备而来。"]}
+            />
+
+            <p className="mt-9 max-w-[44ch] prose-body">
+              面试实时听译与作答、笔试截屏解题、模拟面试动态对话与复盘报告。
+              AI 能力对接你自己的接口，所有数据留在这台电脑上。
+            </p>
+
+            <div className="mt-11 flex flex-wrap items-center gap-4">
+              <a
+                href={downloadUrl("win")}
+                className="inline-flex items-center bg-paper px-8 py-4 font-mono text-[11px] uppercase tracking-[0.22em] text-ink transition-colors duration-500 ease-expo hover:bg-white"
+              >
+                下载桌面端
+              </a>
+              <a
+                href="#video"
+                className="inline-flex items-center border border-line px-8 py-4 font-mono text-[11px] uppercase tracking-[0.22em] text-paper transition-colors duration-500 ease-expo hover:border-paper/50 hover:bg-paper/[0.04]"
+              >
+                观看宣传片
+              </a>
+              <a
+                href={GITHUB_REPO}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2.5 px-2 py-4 font-mono text-[11px] uppercase tracking-[0.2em] text-paper-ash transition-colors hover:text-paper"
+              >
+                <GithubIcon className="h-[18px] w-[18px]" />
+                源码
+              </a>
+            </div>
+          </div>
+
+          <div className="lg:col-span-5">
+            <VideoPreview />
+          </div>
         </div>
       </div>
 
-      {/* 滚动提示 */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-6 flex justify-center">
-        <div className="h-10 w-6 animate-float rounded-full border-2 border-snow-50/25 p-1">
-          <div className="mx-auto h-2 w-1 rounded-full bg-snow-50/50" />
-        </div>
+      {/* 规格条：一屏内交代清楚四件差异化事实 */}
+      <div className="wrap relative">
+        <dl className="grid grid-cols-2 border-t border-line sm:grid-cols-4">
+          {SPECS.map(([idx, k, v], i) => (
+            <div
+              key={k}
+              className={`flex items-baseline gap-3 py-6 ${
+                i !== 0 ? "sm:border-l sm:border-line-soft sm:pl-6" : ""
+              } ${i % 2 === 1 ? "border-l border-line-soft pl-5 sm:pl-6" : ""} ${
+                i > 1 ? "border-t border-line-soft sm:border-t-0" : ""
+              }`}
+            >
+              <span className="numeral text-xs text-brand">{idx}</span>
+              <div>
+                <dt className="text-[13px] font-semibold text-paper">{k}</dt>
+                <dd className="mt-0.5 font-mono text-[10px] uppercase tracking-[0.16em] text-paper-mute">
+                  {v}
+                </dd>
+              </div>
+            </div>
+          ))}
+        </dl>
       </div>
     </section>
   );

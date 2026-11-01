@@ -7,47 +7,118 @@ html {
 }
 
 body {
-  @apply bg-ink font-sans text-snow antialiased;
+  @apply bg-ink font-display text-paper antialiased;
+  font-feature-settings: "kern" 1;
   overflow-x: hidden;
 }
 
 ::selection {
-  @apply bg-volt text-ink;
+  background: #15AEF2;
+  color: #0A0F19;
 }
 
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 9px;
 }
 ::-webkit-scrollbar-track {
-  background: #0a0a12;
+  background: #0a0908;
 }
 ::-webkit-scrollbar-thumb {
-  background: #2a2a44;
-  border-radius: 8px;
+  background: #2b2722;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #3d3d66;
+  background: #3d3830;
+}
+
+@layer base {
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
 }
 
 @layer components {
-  /* AnimatedTitle：每个词的初始态（由 GSAP scrub 驱动进入） */
-  .animated-word {
-    display: inline-block;
-    opacity: 0;
-    transform: translateY(46px) rotateX(48deg);
-    transform-origin: 50% 100%;
-    will-change: transform, opacity;
+  /* 版心 */
+  .wrap {
+    @apply mx-auto w-full max-w-wrap px-6 sm:px-10 lg:px-16;
   }
 
-  .game-title {
-    @apply font-display font-black uppercase leading-[0.95] tracking-tight;
+  /* 超大展示字 */
+  .display {
+    @apply font-display font-black leading-[0.9] tracking-[-0.02em];
   }
 
-  .section-tag {
-    @apply mb-6 inline-flex items-center gap-2 rounded-full border border-snow-50/15 bg-snow-50/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-snow-50;
+  /* 细分隔线 */
+  .rule {
+    @apply border-t border-line-soft;
   }
 
-  .glass-panel {
-    @apply rounded-2xl border border-snow-50/10 bg-snow-50/[0.04];
+  /* 小号字符标签：只在少数位置用，不放在每个标题上 */
+  .eyebrow {
+    @apply font-mono text-[11px] uppercase tracking-[0.3em] text-paper-ash;
+  }
+
+  /* 衬线数字 */
+  .numeral {
+    @apply font-serif italic tracking-tight;
+  }
+
+  /* 段落正文 */
+  .prose-body {
+    @apply text-[15px] leading-[1.85] text-paper-ash sm:text-base;
+  }
+
+  /* 行掩膜揭示：外层裁切，内层上移 */
+  .line-mask {
+    display: block;
+    overflow: hidden;
+    /* 行高 0.9 时 CJK 字形（雅黑 86.5px 高 vs 59px 行框）上下各溢出约 0.21em：
+       两侧留 0.24em 余量再用负 margin 抵消，既保留紧凑行距又不切笔画 */
+    padding: 0.24em 0;
+    margin: -0.24em 0;
+  }
+  .line-mask > span {
+    display: block;
+    will-change: transform;
+  }
+
+  /* 编辑式链接下划线 */
+  .link-underline {
+    @apply relative inline-block;
+  }
+  .link-underline::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    height: 1px;
+    width: 100%;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .link-underline:hover::after {
+    transform: scaleX(1);
+  }
+
+  /* 图片框：细分隔线，不圆角 */
+  .frame {
+    @apply relative border border-line bg-ink-800;
+  }
+
+  /* 细网格背景（极低对比，仅用于版面呼吸） */
+  .grid-lines {
+    background-image: linear-gradient(
+        to right,
+        rgba(244, 240, 232, 0.05) 1px,
+        transparent 1px
+      ),
+      linear-gradient(to bottom, rgba(244, 240, 232, 0.05) 1px, transparent 1px);
+    background-size: 120px 120px;
   }
 }
