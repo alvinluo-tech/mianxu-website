@@ -1,4 +1,5 @@
 import RevealTitle from "./RevealTitle";
+import Shot from "./Shot";
 
 export default function About() {
   return (
@@ -27,11 +28,11 @@ export default function About() {
 
           <figure className="mt-14">
             <div className="frame">
-              <img
-                src="/img/app/app-workbench.jpg"
+              <Shot
+                name="app-workbench"
                 alt="MianXu 面试工作台界面"
-                loading="lazy"
                 className="block w-full"
+                eager
               />
             </div>
             <figcaption className="mt-3 flex items-baseline justify-between border-t border-line-soft pt-3">

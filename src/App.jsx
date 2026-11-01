@@ -8,6 +8,7 @@ import Story from "./components/Story";
 import Download from "./components/Download";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
+import { ThemeProvider } from "./lib/theme";
 import { ScrollTrigger } from "./lib/gsap";
 
 export default function App() {
@@ -23,16 +24,18 @@ export default function App() {
   }, []);
 
   return (
-    <main id="top" className="relative min-h-screen overflow-x-hidden bg-ink text-paper">
-      <Navbar />
-      <Hero />
-      <About />
-      <VideoSection />
-      <Features />
-      <Story />
-      <Download />
-      <Contact />
-      <Footer />
-    </main>
+    <ThemeProvider>
+      <main id="top" className="relative min-h-screen overflow-x-hidden bg-ink text-paper">
+        <Navbar />
+        <Hero />
+        <About />
+        <VideoSection />
+        <Features />
+        <Story />
+        <Download />
+        <Contact />
+        <Footer />
+      </main>
+    </ThemeProvider>
   );
 }

@@ -1,4 +1,5 @@
 import RevealTitle from "./RevealTitle";
+import Shot from "./Shot";
 
 const PRINCIPLES = [
   {
@@ -65,10 +66,9 @@ export default function Story() {
 
           <figure className="lg:col-span-5">
             <div className="frame">
-              <img
-                src="/img/app/app-settings.jpg"
+              <Shot
+                name="app-settings"
                 alt="MianXu 设置与 AI 服务界面"
-                loading="lazy"
                 className="block w-full"
               />
             </div>

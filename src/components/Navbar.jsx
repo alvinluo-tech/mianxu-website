@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import GithubIcon from "./GithubIcon";
 import { GITHUB_REPO, downloadUrl } from "../lib/constants";
+import { useTheme } from "../lib/theme";
 
 const LINKS = [
   { label: "产品", href: "#about" },
@@ -9,6 +10,33 @@ const LINKS = [
   { label: "原则", href: "#story" },
   { label: "下载", href: "#download" },
 ];
+
+function ThemeToggle({ className = "" }) {
+  const { theme, toggle } = useTheme();
+  const next = theme === "dark" ? "浅色" : "深色";
+  return (
+    <button
+      type="button"
+      onClick={toggle}
+      aria-label={`切换到${next}模式`}
+      title={`切换到${next}模式`}
+      className={`grid h-9 w-9 place-items-center border border-line text-paper-ash transition-colors duration-500 ease-expo hover:border-paper/40 hover:text-paper ${className}`}
+    >
+      {theme === "dark" ? (
+        // 当前深色：显示太阳，点击转浅色
+        <svg viewBox="0 0 24 24" className="h-[15px] w-[15px]" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4" />
+        </svg>
+      ) : (
+        // 当前浅色：显示月亮，点击转深色
+        <svg viewBox="0 0 24 24" className="h-[15px] w-[15px]" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a7 7 0 1 0 10.5 10.5z" />
+        </svg>
+      )}
+    </button>
+  );
+}
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -73,6 +101,7 @@ export default function Navbar() {
             >
               <GithubIcon className="h-[18px] w-[18px]" />
             </a>
+            <ThemeToggle />
             <a
               href="#download"
               className="border border-paper/70 px-6 py-2.5 font-mono text-[11px] uppercase tracking-[0.2em] text-paper transition-colors duration-500 ease-expo hover:bg-paper hover:text-ink"
@@ -136,6 +165,7 @@ export default function Navbar() {
           >
             <GithubIcon className="h-5 w-5" />
           </a>
+          <ThemeToggle />
         </div>
       </div>
     </>

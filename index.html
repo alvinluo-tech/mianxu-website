@@ -10,6 +10,15 @@
       content="MianXu —— 本地优先的 AI 面试工作台：实时听译、AI 流式作答、模拟面试与复盘报告。数据保存在本机。"
     />
     <title>MianXu · AI 面试工作台 | 官网</title>
+    <script>
+      // 首屏前定主题，避免闪白/闪黑
+      try {
+        var t = localStorage.getItem("mianxu-theme");
+        document.documentElement.dataset.theme = t === "light" ? "light" : "dark";
+      } catch (e) {
+        document.documentElement.dataset.theme = "dark";
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

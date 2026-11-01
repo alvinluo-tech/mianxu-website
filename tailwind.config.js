@@ -4,29 +4,27 @@ export default {
   theme: {
     extend: {
       colors: {
-        // 取自产品真实界面：冷调藏青
+        // 语义色全部绑定 CSS 变量，浅色/深色由 [data-theme] 切换
         ink: {
-          DEFAULT: "#0A0F19",
-          900: "#0A0F19",
-          800: "#0B111F",
-          700: "#131929",
-          600: "#1B2233",
+          DEFAULT: "rgb(var(--surface) / <alpha-value>)",
+          900: "rgb(var(--surface) / <alpha-value>)",
+          800: "rgb(var(--surface-2) / <alpha-value>)",
+          700: "rgb(var(--surface-3) / <alpha-value>)",
+          600: "rgb(var(--surface-4) / <alpha-value>)",
         },
-        // 冷白纸感
         paper: {
-          DEFAULT: "#E8ECF4",
-          dim: "#C3CAD8",
-          ash: "#8A93A6",
-          mute: "#5B6478",
+          DEFAULT: "rgb(var(--text) / <alpha-value>)",
+          dim: "rgb(var(--text-2) / <alpha-value>)",
+          ash: "rgb(var(--text-3) / <alpha-value>)",
+          mute: "rgb(var(--text-4) / <alpha-value>)",
         },
-        // 唯一点缀色：产品青蓝（采样自界面主按钮 #15AEF2）
         brand: {
-          DEFAULT: "#15AEF2",
-          light: "#4FC3F7",
-          deep: "#0A6E9E",
+          DEFAULT: "rgb(var(--brand) / <alpha-value>)",
+          light: "rgb(var(--brand-light) / <alpha-value>)",
+          deep: "rgb(var(--brand-deep) / <alpha-value>)",
         },
-        line: "rgba(232, 236, 244, 0.14)",
-        "line-soft": "rgba(232, 236, 244, 0.07)",
+        line: "rgb(var(--line) / 0.14)",
+        "line-soft": "rgb(var(--line) / 0.07)",
       },
       fontFamily: {
         display: [

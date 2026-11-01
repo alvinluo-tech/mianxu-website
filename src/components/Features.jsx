@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "../lib/gsap";
 import RevealTitle from "./RevealTitle";
+import Shot from "./Shot";
 
 const FEATURES = [
   {
@@ -9,7 +10,7 @@ const FEATURES = [
     title: "面试工作台",
     desc: "系统声音直采实时听译，AI 按你的简历、岗位与资料流式作答；静音门限与回答风格随时可调。",
     facts: ["系统音频直采，无需外部录音", "静音 1.6 秒自动触发作答", "回答风格三档：稳妥 / 适中 / 灵敏"],
-    img: "/img/app/app-workbench.jpg",
+    shot: "app-workbench",
     alt: "MianXu 面试工作台界面",
     caption: "Fig. 02 — 面试工作台",
   },
@@ -19,7 +20,8 @@ const FEATURES = [
     title: "模拟面试间",
     desc: "独立面试窗口：AI 面试官按简历与岗位动态出题，根据你的回答追问或换题，用 TTS 播报。",
     facts: ["按简历与岗位生成题库", "回答后即时追问或换题", "文字或语音作答，结束出复盘"],
-    img: "/img/app/app-mock-live.jpg",
+    shot: "app-mock-live",
+    darkOnly: true,
     alt: "MianXu 模拟面试对话界面",
     caption: "Fig. 03 — 模拟面试间 · 对话",
   },
@@ -29,7 +31,8 @@ const FEATURES = [
     title: "复盘报告",
     desc: "每场模拟结束后生成结构化复盘：整体表现、逐题点评与改进建议，保存进该场记录。",
     facts: ["逐题亮点与可改进点", "跨重启续场、历史回看", "本地生成，可随时导出"],
-    img: "/img/app/app-mock-report.jpg",
+    shot: "app-mock-report",
+    darkOnly: true,
     alt: "MianXu 复盘报告界面",
     caption: "Fig. 04 — 复盘报告",
   },
@@ -39,7 +42,7 @@ const FEATURES = [
     title: "自由对话",
     desc: "文字与语音双通道的助手：问知识、理思路，也可以按需查询本地的简历、岗位与面试记录。",
     facts: ["文字 / 语音两种输入", "本地资料按需授权查询", "对话历史自动留存"],
-    img: "/img/app/app-ai.jpg",
+    shot: "app-ai",
     alt: "MianXu 自由对话界面",
     caption: "Fig. 05 — 自由对话",
   },
@@ -49,7 +52,7 @@ const FEATURES = [
     title: "AI 面试题库",
     desc: "按简历与岗位生成定制题目，参考回答一键存入面试资料，逐步形成你自己的弹药库。",
     facts: ["按岗位方向定制", "参考答案可入库复用", "与资料管理共享同一份上下文"],
-    img: "/img/app/app-bank.jpg",
+    shot: "app-bank",
     alt: "MianXu 面试题库界面",
     caption: "Fig. 06 — 面试题库",
   },
@@ -59,7 +62,7 @@ const FEATURES = [
     title: "资料管理",
     desc: "简历、岗位、面试资料与预设问答统一维护，出题与作答读取同一份上下文。",
     facts: ["PDF / 图片 / 文本统一入库", "预设问答可编辑", "面试前只需选择，不用临时整理"],
-    img: "/img/app/app-materials.jpg",
+    shot: "app-materials",
     alt: "MianXu 资料管理界面",
     caption: "Fig. 07 — 资料管理",
   },
@@ -69,7 +72,7 @@ const FEATURES = [
     title: "历史记录",
     desc: "面试问答与笔试记录完整留存，可重命名、删除、导出 markdown，也能回看复盘报告。",
     facts: ["按场次归档", "导出 markdown", "复盘报告随记录保存"],
-    img: "/img/app/app-history.jpg",
+    shot: "app-history",
     alt: "MianXu 历史记录界面",
     caption: "Fig. 08 — 历史记录",
   },
@@ -153,12 +156,7 @@ export default function Features() {
                   }`}
                 >
                   <div className="frame">
-                    <img
-                      src={f.img}
-                      alt={f.alt}
-                      loading="lazy"
-                      className="block w-full"
-                    />
+                    <Shot name={f.shot} alt={f.alt} className="block w-full" darkOnly={f.darkOnly} />
                   </div>
                   <figcaption className="mt-3 font-mono text-[10px] uppercase tracking-[0.22em] text-paper-mute">
                     {f.caption}
