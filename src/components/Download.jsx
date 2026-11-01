@@ -65,80 +65,80 @@ export default function Download() {
               桌面端基于 Tauri 2 构建，体积小、启动快。下载地址始终指向 GitHub 上的最新 Release，
               无需在本站更新版本号。
             </p>
-          </div>
-        </div>
 
-        <div className="mt-16 grid border-t border-line md:grid-cols-2">
-          {PLATFORMS.map((p, i) => (
-            <div
-              key={p.key}
-              className={`border-b border-line py-10 md:py-12 ${
-                i === 1 ? "md:border-l md:border-line md:pl-12" : "md:pr-12"
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                <p.Icon className="h-5 w-5 text-paper-ash" />
-                <h3 className="display text-[1.75rem] text-paper">{p.name}</h3>
+            <div className="mt-14 grid max-w-4xl border-t border-line md:grid-cols-2">
+              {PLATFORMS.map((p, i) => (
+                <div
+                  key={p.key}
+                  className={`border-b border-line py-10 md:py-12 ${
+                    i === 1 ? "md:border-l md:border-line md:pl-10" : "md:pr-10"
+                  }`}
+                >
+                  <div className="flex items-center gap-3.5">
+                    <p.Icon className="h-6 w-6 text-paper-ash" />
+                    <h3 className="display text-[2.15rem] leading-none text-paper">{p.name}</h3>
+                  </div>
+                  <p className="mt-3.5 font-mono text-[10px] uppercase tracking-[0.2em] text-paper-mute">
+                    {p.meta}
+                  </p>
+
+                  <div className="mt-8 space-y-3">
+                    {p.items.map((item, j) => (
+                      <a
+                        key={item.key}
+                        href={downloadUrl(item.key)}
+                        className={`flex items-baseline justify-between px-5 py-4 transition-colors duration-500 ease-expo ${
+                          j === 0
+                            ? "bg-paper text-ink hover:bg-white"
+                            : "border border-line text-paper hover:border-paper/50 hover:bg-paper/[0.04]"
+                        }`}
+                      >
+                        <span className="font-mono text-[11px] uppercase tracking-[0.2em]">
+                          {item.label}
+                        </span>
+                        <span
+                          className={`font-mono text-[10px] tracking-[0.1em] ${
+                            j === 0 ? "text-ink/60" : "text-paper-mute"
+                          }`}
+                        >
+                          {item.meta}
+                        </span>
+                      </a>
+                    ))}
+                  </div>
+
+                  <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.14em] text-paper-mute">
+                    {p.note}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex flex-wrap items-baseline justify-between gap-4 border-b border-line py-6">
+              <div className="flex items-baseline gap-6">
+                <a
+                  href={GITHUB_REPO}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.2em] text-paper transition-colors hover:text-brand"
+                >
+                  <GithubIcon className="h-4 w-4" />
+                  源码仓库
+                </a>
+                <a
+                  href={GITHUB_RELEASES}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="link-underline font-mono text-[11px] uppercase tracking-[0.2em] text-paper-ash transition-colors hover:text-paper"
+                >
+                  全部版本
+                </a>
               </div>
-              <p className="mt-3 font-mono text-[10px] uppercase tracking-[0.2em] text-paper-mute">
-                {p.meta}
-              </p>
-
-              <div className="mt-8 space-y-3">
-                {p.items.map((item, j) => (
-                  <a
-                    key={item.key}
-                    href={downloadUrl(item.key)}
-                    className={`flex items-baseline justify-between px-6 py-4 transition-colors duration-500 ease-expo ${
-                      j === 0
-                        ? "bg-paper text-ink hover:bg-white"
-                        : "border border-line text-paper hover:border-paper/50 hover:bg-paper/[0.04]"
-                    }`}
-                  >
-                    <span className="font-mono text-[11px] uppercase tracking-[0.2em]">
-                      {item.label}
-                    </span>
-                    <span
-                      className={`font-mono text-[10px] tracking-[0.1em] ${
-                        j === 0 ? "text-ink/60" : "text-paper-mute"
-                      }`}
-                    >
-                      {item.meta}
-                    </span>
-                  </a>
-                ))}
-              </div>
-
-              <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.14em] text-paper-mute">
-                {p.note}
+              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-paper-mute">
+                {latest ? `Latest ${latest.tag}${latest.date ? ` · ${latest.date}` : ""}` : "Latest · GitHub Releases"}
               </p>
             </div>
-          ))}
-        </div>
-
-        <div className="flex flex-wrap items-baseline justify-between gap-4 border-b border-line py-6">
-          <div className="flex items-baseline gap-6">
-            <a
-              href={GITHUB_REPO}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.2em] text-paper transition-colors hover:text-brand"
-            >
-              <GithubIcon className="h-4 w-4" />
-              源码仓库
-            </a>
-            <a
-              href={GITHUB_RELEASES}
-              target="_blank"
-              rel="noreferrer"
-              className="link-underline font-mono text-[11px] uppercase tracking-[0.2em] text-paper-ash transition-colors hover:text-paper"
-            >
-              全部版本
-            </a>
           </div>
-          <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-paper-mute">
-            {latest ? `Latest ${latest.tag}${latest.date ? ` · ${latest.date}` : ""}` : "Latest · GitHub Releases"}
-          </p>
         </div>
       </div>
     </section>
