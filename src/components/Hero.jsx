@@ -1,7 +1,6 @@
 import RevealTitle from "./RevealTitle";
 import VideoPreview from "./VideoPreview";
-import GithubIcon from "./GithubIcon";
-import { GITHUB_REPO, downloadUrl } from "../lib/constants";
+import { downloadUrl } from "../lib/constants";
 
 const SPECS = [
   ["01", "本地优先", "数据不出本机"],
@@ -23,7 +22,6 @@ export default function Hero() {
         {/* 报头线 */}
         <div className="flex items-baseline justify-between border-b border-line pb-5">
           <span className="eyebrow">AI 面试工作台 · 本地优先</span>
-          <span className="eyebrow hidden sm:block">EST. 2026 / MianXu</span>
         </div>
 
         <div className="grid grid-cols-1 items-end gap-14 pb-16 pt-14 lg:grid-cols-12 lg:gap-10 lg:pb-24 lg:pt-20">
@@ -53,15 +51,6 @@ export default function Hero() {
                 className="inline-flex items-center border border-line px-8 py-4 font-mono text-[11px] uppercase tracking-[0.22em] text-paper transition-colors duration-500 ease-expo hover:border-paper/50 hover:bg-paper/[0.04]"
               >
                 观看宣传片
-              </a>
-              <a
-                href={GITHUB_REPO}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2.5 px-2 py-4 font-mono text-[11px] uppercase tracking-[0.2em] text-paper-ash transition-colors hover:text-paper"
-              >
-                <GithubIcon className="h-[18px] w-[18px]" />
-                源码
               </a>
             </div>
           </div>

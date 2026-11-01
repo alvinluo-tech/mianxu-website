@@ -42,12 +42,15 @@ export default function Navbar() {
             scrolled ? "h-[68px]" : "h-[92px]"
           }`}
         >
-          <a href="#top" className="flex items-baseline gap-3">
+          <a href="#top" className="flex items-center gap-3">
+            <img
+              src="/img/app-icon.png"
+              alt=""
+              aria-hidden="true"
+              className="h-7 w-7 shrink-0 rounded-[7px]"
+            />
             <span className="font-serif text-[22px] italic leading-none tracking-tight text-paper">
               MianXu
-            </span>
-            <span className="hidden font-mono text-[10px] uppercase tracking-[0.32em] text-paper-mute sm:block">
-              面试工作台
             </span>
           </a>
 

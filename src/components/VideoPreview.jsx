@@ -71,7 +71,7 @@ export default function VideoPreview({ className = "" }) {
             Official Film
           </span>
           <span className="font-serif text-sm italic text-paper-ash">
-            让每一场面试，都有备而来
+            说完，就答。
           </span>
         </div>
       </button>

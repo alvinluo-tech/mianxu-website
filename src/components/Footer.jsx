@@ -1,5 +1,4 @@
-import GithubIcon from "./GithubIcon";
-import { GITHUB_REPO, GITHUB_RELEASES } from "../lib/constants";
+import { GITHUB_REPO } from "../lib/constants";
 
 const NAV = [
   { label: "产品", href: "#about" },
@@ -14,21 +13,18 @@ export default function Footer() {
     <footer className="border-t border-line">
       <div className="wrap py-14">
         <div className="grid gap-10 md:grid-cols-12">
-          <div className="md:col-span-5">
+          <div className="md:col-span-8">
             <a href="#top" className="flex items-center gap-3">
               <img
                 src="/img/app-icon.png"
                 alt="MianXu 应用图标"
-                className="h-8 w-8"
+                className="h-8 w-8 rounded-[8px]"
               />
               <span className="font-serif text-[22px] italic leading-none text-paper">
                 MianXu
               </span>
-              <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-paper-mute">
-                面试工作台
-              </span>
             </a>
-            <p className="mt-5 max-w-[38ch] text-[13px] leading-[1.8] text-paper-ash">
+            <p className="mt-5 max-w-[40ch] text-[13px] leading-[1.8] text-paper-ash">
               本地优先的 AI 面试工作台。实时听译与作答、笔试截屏解题、模拟面试与复盘报告。
             </p>
             <p className="mt-6 font-serif text-sm italic text-paper-ash">
@@ -36,9 +32,9 @@ export default function Footer() {
             </p>
           </div>
 
-          <nav className="md:col-span-3">
+          <nav className="md:col-span-4">
             <h4 className="eyebrow">目录</h4>
-            <ul className="mt-4 space-y-2.5">
+            <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-2.5">
               {NAV.map((l) => (
                 <li key={l.href}>
                   <a
@@ -49,37 +45,18 @@ export default function Footer() {
                   </a>
                 </li>
               ))}
-            </ul>
-          </nav>
-
-          <div className="md:col-span-4">
-            <h4 className="eyebrow">开源</h4>
-            <ul className="mt-4 space-y-2.5">
               <li>
                 <a
                   href={GITHUB_REPO}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-2 text-[13px] text-paper-ash transition-colors hover:text-paper"
-                >
-                  <GithubIcon className="h-4 w-4" />
-                  GitHub 仓库
-                </a>
-              </li>
-              <li>
-                <a
-                  href={GITHUB_RELEASES}
-                  target="_blank"
-                  rel="noreferrer"
                   className="text-[13px] text-paper-ash transition-colors hover:text-paper"
                 >
-                  全部 Releases
+                  GitHub
                 </a>
               </li>
-              <li className="text-[13px] text-paper-mute">桌面端基于 Tauri 2</li>
-              <li className="text-[13px] text-paper-mute">数据保存在用户本机</li>
             </ul>
-          </div>
+          </nav>
         </div>
       </div>
 
@@ -88,9 +65,12 @@ export default function Footer() {
           <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-paper-mute">
             © 2026 MianXu
           </p>
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-paper-mute">
-            Built with Tauri · React · GSAP
-          </p>
+          <a
+            href="#top"
+            className="font-mono text-[10px] uppercase tracking-[0.2em] text-paper-mute transition-colors hover:text-paper"
+          >
+            回到顶部
+          </a>
         </div>
       </div>
     </footer>

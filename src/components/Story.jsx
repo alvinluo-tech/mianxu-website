@@ -60,9 +60,6 @@ export default function Story() {
               <p className="font-serif text-[1.35rem] italic leading-relaxed text-paper/90">
                 “界面越安静，注意力越值钱。”
               </p>
-              <footer className="mt-3 font-mono text-[10px] uppercase tracking-[0.24em] text-paper-mute">
-                MianXu Design Principle
-              </footer>
             </blockquote>
           </div>
 
