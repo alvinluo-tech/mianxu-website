@@ -94,7 +94,7 @@ export default function VideoPreview({ className = "" }) {
               />
               <div className="mt-4 flex items-center justify-between">
                 <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-paper-ash">
-                  MianXu · Official Film · 00:32
+                  MianXu · Official Film · 00:48
                 </p>
                 <button
                   type="button"

@@ -30,14 +30,14 @@
 | 动画 | GSAP 3 + ScrollTrigger（行掩膜揭示、图片上浮、`expo.out`） |
 | 样式 | Tailwind CSS 3（`ink / paper / brand` 三组语义色 + `line` 分隔线） |
 | 下载 | Vercel Serverless 函数读取 GitHub Releases 清单后 302 |
-| 宣传片 | [huashu-motion](https://github.com/alchaincyf/huashu-motion) 工程（`_film/mianxu-promo`） |
+| 宣传片 | [motion-showreel](https://github.com/ConardLi/garden-skills) 工程（应用仓库 `promo-mianxu/v4-wide`） |
 
 ## 页面结构
 
 - `Navbar` —— 细线悬浮导航（滚动收窄）+ 移动端全屏菜单（编号排版）
 - `Hero` —— 超大标题 + 宣传片预览（悬停缓推、点击全屏）+ 四条规格事实条
 - `About` —— 产品理念、三项关键数字（衬线数字）、全宽界面图
-- `VideoSection` —— 宣传片专区：播放器 + 章节时间线（00:03 / 00:09 / 00:16 / 00:22）
+- `VideoSection` —— 宣传片专区：播放器 + 章节时间线（00:02 / 00:08 / 00:13 / 00:22 / 00:27 / 00:31）
 - `Features` —— 七个能力，交替左右的长文条目（编号 + 三条差异化事实 + 界面图）
 - `Story` —— 四条产品原则 + 引文 + 设置界面图
 - `Download` —— Windows / macOS 双栏，官方图标，自动最新版直链
@@ -57,15 +57,27 @@
 
 ## 宣传片
 
-正式成片由 `_film/mianxu-promo/`（huashu-motion 工程）产出，当前版本 `out/mianxu-promo-v10.mp4`，
-发布到 `public/videos/`：
+正式成片为 **48 秒横版**（1920×1080 · 30fps · 24 小节 @120 BPM），源码在应用仓库
+`mianshi-copilot/promo-mianxu/v4-wide/`（motion-showreel 工程：`index.html` + `timeline.js` + `score.mjs`），
+用 `render.mjs . --size 1920x1080 --fps 30 --audio audio/music.wav` 渲染后拷到 `public/videos/`。
+`_film/mianxu-promo/` 是上一版 32 秒片子的旧工程，只作留档。
+
+派生资源（首页循环片段、封面）都由成片转出：
 
 ```bash
-# 成片与派生资源（首页循环片段、封面）均由成片转出
-ffmpeg -ss 10 -t 9 -i public/videos/mianxu-promo.mp4 -an -vf scale=1100:-2 \
-  -c:v libx264 -pix_fmt yuv420p -crf 23 -movflags +faststart public/videos/hero-loop.mp4
-ffmpeg -ss 4.5 -i public/videos/mianxu-promo.mp4 -frames:v 1 -q:v 3 public/videos/poster.jpg
+# 首页循环：取 10–19.5s，首尾 0.5s 交叉淡化，循环点不留跳帧
+ffmpeg -ss 10 -t 9.5 -i public/videos/mianxu-promo.mp4 -an \
+  -vf "scale=1100:618,fps=30,format=yuv420p" -c:v libx264 -crf 18 .tmp-hero.mp4
+ffmpeg -i .tmp-hero.mp4 -i .tmp-hero.mp4 -filter_complex \
+  "[0:v]trim=0:0.5,setpts=PTS-STARTPTS[a];[1:v]trim=9:9.5,setpts=PTS-STARTPTS[b];\
+   [a][b]xfade=transition=fade:duration=0.5:offset=0[x];[1:v]trim=0.5:9,setpts=PTS-STARTPTS[m];\
+   [m][x]concat=n=2:v=1:a=0[out]" -map "[out]" -an -r 30 \
+  -c:v libx264 -crf 22 -pix_fmt yuv420p -movflags +faststart public/videos/hero-loop.mp4
+# 封面
+ffmpeg -ss 13.7 -i public/videos/mianxu-promo.mp4 -frames:v 1 -q:v 3 public/videos/poster.jpg
 ```
+
+章节文案（`video.ch1`–`ch6`）与时长标注随片改动，24 个语言包同步更新。
 
 `scripts/make_promo.py` 是早期的 Pillow 备用样片生成器，只输出到
 `public/videos/fallback/`，**不会覆盖正式成片**（`npm run promo:fallback`）。

@@ -4,10 +4,11 @@ import { useI18n } from "../i18n";
 // 章节时间取自成片实际内容（_film/mianxu-promo v10），文案随语言切换
 const CHAPTER_META = [
   ["00:02", "video.ch1"],
-  ["00:07", "video.ch2"],
-  ["00:12", "video.ch3"],
+  ["00:08", "video.ch2"],
+  ["00:13", "video.ch3"],
   ["00:22", "video.ch4"],
   ["00:27", "video.ch5"],
+  ["00:31", "video.ch6"],
 ];
 
 export default function VideoSection() {
@@ -45,7 +46,7 @@ export default function VideoSection() {
               <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-paper-mute">
                 MianXu — Official Film
               </span>
-              <span className="numeral text-xs text-paper-ash">32″ / 2026</span>
+              <span className="numeral text-xs text-paper-ash">48″ / 2026</span>
             </div>
           </div>
 
