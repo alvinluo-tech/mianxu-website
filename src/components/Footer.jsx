@@ -1,14 +1,17 @@
 import { GITHUB_REPO } from "../lib/constants";
+import { useI18n } from "../i18n";
 
 const NAV = [
-  { label: "产品", href: "#about" },
-  { label: "宣传片", href: "#video" },
-  { label: "功能", href: "#features" },
-  { label: "原则", href: "#story" },
-  { label: "下载", href: "#download" },
+  { key: "nav.product", href: "#about" },
+  { key: "nav.film", href: "#video" },
+  { key: "nav.features", href: "#features" },
+  { key: "nav.principles", href: "#story" },
+  { key: "nav.download", href: "#download" },
 ];
 
 export default function Footer() {
+  const { t } = useI18n();
+
   return (
     <footer className="border-t border-line">
       <div className="wrap py-14">
@@ -17,7 +20,7 @@ export default function Footer() {
             <a href="#top" className="flex items-center gap-3">
               <img
                 src="/img/app-icon.png"
-                alt="MianXu 应用图标"
+                alt="MianXu"
                 className="h-8 w-8 rounded-[8px]"
               />
               <span className="font-serif text-[22px] italic leading-none text-paper">
@@ -25,7 +28,7 @@ export default function Footer() {
               </span>
             </a>
             <p className="mt-5 max-w-[40ch] text-[13px] leading-[1.8] text-paper-ash">
-              本地优先的 AI 面试工作台。实时听译与作答、笔试截屏解题、模拟面试与复盘报告。
+              {t("footer.tagline")}
             </p>
             <p className="mt-6 font-serif text-sm italic text-paper-ash">
               Let every interview be prepared.
@@ -33,7 +36,7 @@ export default function Footer() {
           </div>
 
           <nav className="md:col-span-4">
-            <h4 className="eyebrow">目录</h4>
+            <h4 className="eyebrow">{t("footer.group")}</h4>
             <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-2.5">
               {NAV.map((l) => (
                 <li key={l.href}>
@@ -41,7 +44,7 @@ export default function Footer() {
                     href={l.href}
                     className="text-[13px] text-paper-ash transition-colors hover:text-paper"
                   >
-                    {l.label}
+                    {t(l.key)}
                   </a>
                 </li>
               ))}
@@ -69,7 +72,7 @@ export default function Footer() {
             href="#top"
             className="font-mono text-[10px] uppercase tracking-[0.2em] text-paper-mute transition-colors hover:text-paper"
           >
-            回到顶部
+            {t("footer.backToTop")}
           </a>
         </div>
       </div>

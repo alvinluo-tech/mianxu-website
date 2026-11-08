@@ -28,10 +28,18 @@ export default {
         "line-soft": "rgb(var(--line) / 0.07)",
       },
       fontFamily: {
+        // 多语言字形回退：中日韩 / 泰文 / 梵文系 / 阿拉伯系按浏览器逐字形降级
         display: [
           '"PingFang SC"',
+          '"Hiragino Sans GB"',
           '"Microsoft YaHei"',
+          '"Yu Gothic UI"',
+          "Meiryo",
+          '"Malgun Gothic"',
           '"Segoe UI"',
+          '"Nirmala UI"',
+          '"Leelawadee UI"',
+          "Tahoma",
           "system-ui",
           "sans-serif",
         ],

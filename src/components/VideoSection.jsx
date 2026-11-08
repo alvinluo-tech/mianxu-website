@@ -1,31 +1,31 @@
 import RevealTitle from "./RevealTitle";
+import { useI18n } from "../i18n";
 
-// 章节取自成片实际内容（_film/mianxu-promo v10），不做推测
-const CHAPTERS = [
-  ["00:02", "开场：说完，就答"],
-  ["00:07", "面试工作台：选好简历与岗位"],
-  ["00:12", "实时听译 · 1.6 秒内出参考回答"],
-  ["00:22", "模拟面试：追问与复盘"],
-  ["00:27", "让每一场面试，都有备而来"],
+// 章节时间取自成片实际内容（_film/mianxu-promo v10），文案随语言切换
+const CHAPTER_META = [
+  ["00:02", "video.ch1"],
+  ["00:07", "video.ch2"],
+  ["00:12", "video.ch3"],
+  ["00:22", "video.ch4"],
+  ["00:27", "video.ch5"],
 ];
 
 export default function VideoSection() {
+  const { t } = useI18n();
+
   return (
     <section id="video" className="scroll-mt-24 border-t border-line bg-ink-900 py-24 md:py-36">
       <div className="wrap">
         <div className="grid gap-10 lg:grid-cols-12">
           <div className="lg:col-span-3">
-            <p className="eyebrow">02 / 宣传片</p>
+            <p className="eyebrow">{t("video.eyebrow")}</p>
           </div>
           <div className="lg:col-span-9">
             <RevealTitle
               className="display text-[clamp(2.1rem,4.6vw,4.1rem)] text-paper"
-              lines={["三十二秒，", "看懂整场面试。"]}
+              lines={[t("video.title1"), t("video.title2")]}
             />
-            <p className="mt-8 max-w-[52ch] prose-body">
-              从工作台到模拟面试间，从笔试解题到复盘报告。
-              一支短片走完 MianXu 陪你的完整流程。
-            </p>
+            <p className="mt-8 max-w-[52ch] prose-body">{t("video.desc")}</p>
           </div>
         </div>
 
@@ -51,13 +51,13 @@ export default function VideoSection() {
 
           {/* 章节表：给视频一个可读的结构 */}
           <ol className="lg:col-span-3">
-            {CHAPTERS.map(([t, label]) => (
+            {CHAPTER_META.map(([time, key]) => (
               <li
-                key={t}
+                key={time}
                 className="flex items-baseline gap-4 border-b border-line-soft py-3.5"
               >
-                <span className="numeral shrink-0 text-[11px] text-brand">{t}</span>
-                <span className="text-[12.5px] leading-snug text-paper-ash">{label}</span>
+                <span className="numeral shrink-0 text-[11px] text-brand">{time}</span>
+                <span className="text-[12.5px] leading-snug text-paper-ash">{t(key)}</span>
               </li>
             ))}
           </ol>
